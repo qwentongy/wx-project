@@ -21,7 +21,7 @@
     "pages": [
 
       {
-        "path": "goods_detali/goods_detali",
+        "path": "goods_detail/goods_detail",
         "style": {
           "navigationBarTitleText": "",
           "enablePullDownRefresh": false
