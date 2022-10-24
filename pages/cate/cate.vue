@@ -1,5 +1,6 @@
 <template>
   <view>
+    <search-button @click="showSearch"></search-button>
     <view class="scroll-view-container">
       <!-- 左侧滑动区域 -->
       <scroll-view :scroll-y="true" class="left-scroll-view" :style="{height: wh + 'px'}">
@@ -43,7 +44,7 @@
       // 获取当前系统的信息
       const sysInfo = uni.getSystemInfoSync()
       // 为 wh 窗口可用高度动态赋值
-      this.wh = sysInfo.windowHeight
+      this.wh = sysInfo.windowHeight - 50
       this.getCategoryList()
     },
     methods: {
@@ -61,6 +62,11 @@
       changeActive(index) {
         this.active = index,
           this.scrollTop = this.scrollTop === 0 ? 1 : 0
+      },
+      showSearch() {
+        uni.navigateTo({
+          url: '/subpkg/search/search'
+        })
       }
     }
   }

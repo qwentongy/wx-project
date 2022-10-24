@@ -1,5 +1,8 @@
 <template>
   <view>
+    <view class="search-button">
+      <search-button @click="showSearch"></search-button>
+    </view>
     <!-- 轮播图 -->
     <swiper :indicator-dots="true" :autoplay="true" :interval="3000" :duration="1000">
       <swiper-item v-for="swiper in swiperList" :key="swiper.goods_id">
@@ -101,12 +104,22 @@
           })
         }
       },
-
+      showSearch() {
+        uni.navigateTo({
+          url: '/subpkg/search/search'
+        })
+      }
     }
   }
 </script>
 
 <style lang="scss">
+  .search-button {
+    position: sticky;
+    top: 0;
+    z-index: 999;
+  }
+
   // 轮播图
   swiper {
     height: 330rpx;
