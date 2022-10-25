@@ -44,6 +44,7 @@
 </template>
 
 <script>
+  import tabBar_badge from '@/mixins/tabbar-badge.js'
   export default {
     data() {
       return {
@@ -52,6 +53,7 @@
         floorList: []
       };
     },
+    mixins: [tabBar_badge],
     mounted() {
       this.getSwiperList()
       this.getNavList()

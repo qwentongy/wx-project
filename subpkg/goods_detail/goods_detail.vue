@@ -42,6 +42,10 @@
 </template>
 
 <script>
+  import {
+    mapMutations,
+    mapGetters
+  } from 'vuex'
   export default {
     data() {
       return {
@@ -54,7 +58,7 @@
         }, {
           icon: 'cart',
           text: '购物车',
-          info: 2
+          info: 0
         }],
         // 右侧按钮组的配置对象
         buttonGroup: [{
@@ -77,6 +81,8 @@
       this.getGoodsDetail(goods_id)
     },
     methods: {
+      ...mapMutations('cart', ['addCart']),
+
       // 定义请求商品详情数据的方法
       async getGoodsDetail(goods_id) {
         const {
@@ -106,8 +112,38 @@
             url: '/pages/cart/cart'
           })
         }
+      },
+      // 右侧按钮的点击事件处理函数
+      buttonClick(e) {
+        if (e.content.text === '加入购物车') {
+          const goodsInfo = {
+            goods_id: this.goods_info.goods_id, // 商品的Id
+            goods_name: this.goods_info.goods_name, // 商品的名称
+            goods_price: this.goods_info.goods_price, // 商品的价格
+            goods_count: 1, // 商品的数量
+            goods_small_logo: this.goods_info.goods_small_logo, // 商品的图片
+            goods_state: true // 商品的勾选状态
+          }
+          this.addCart(goodsInfo)
+        }
       }
 
+    },
+    computed: {
+      // 注意mapState要写在computed中
+      ...mapGetters('cart', ['cartCount']),
+    },
+    watch: {
+      // 监听数量变化,变化则把组件显示数量的值改为该数量
+      cartCount: {
+        immediate: true,
+        handler(n) {
+          // find找到符合要求的内容并返回,返回的内容和原本的内容指向同一个内存地址
+          // 直接修改返回的内容会影响原数组
+          const findResult = this.options.find(x => x.text === '购物车')
+          findResult.info = n
+        }
+      }
     }
   }
 </script>

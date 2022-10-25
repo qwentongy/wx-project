@@ -31,6 +31,7 @@
 </template>
 
 <script>
+  import tabBar_badge from '@/mixins/tabbar-badge.js'
   export default {
     data() {
       return {
@@ -40,6 +41,7 @@
         scrollTop: 0
       };
     },
+    mixins: [tabBar_badge],
     mounted() {
       // 获取当前系统的信息
       const sysInfo = uni.getSystemInfoSync()
