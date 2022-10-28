@@ -18,6 +18,13 @@ export default {
         index: 2,
         text: this.cartCount + '', // 注意：text 的值必须是字符串，不能是数字
       })
+      if (this.cartCount === 0) uni.removeTabBarBadge()
     },
   },
+  // 监听数量，变化时重新赋值给text
+  watch: {
+    cartCount() {
+      this.setBadge()
+    }
+  }
 }

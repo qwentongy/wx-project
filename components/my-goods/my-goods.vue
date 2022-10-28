@@ -1,45 +1,36 @@
 <template>
-  <view>
-    <view class="goods-list">
-      <block v-for="(goods, i) in goodsList" :key="i">
-        <navigator class="goods-item" :url="`/subpkg/goods_detail/goods_detail?goods_id=${goods.goods_id}`">
-          <!-- 商品左侧图片区域 -->
-          <view class="goods-item-left">
-            <radio :checked="goods.goods_state" color="#C00000" v-if="showRadio" @click.stop="radioClickHandler(goods)">
-            </radio>
-            <image :src="goods.goods_small_logo || defaultPic" class="goods-pic"></image>
-          </view>
-          <!-- 商品右侧信息区域 -->
-          <view class="goods-item-right">
-            <!-- 商品标题 -->
-            <view class="goods-name">{{goods.goods_name}}</view>
-            <view class="goods-info-box">
-              <!-- 商品价格 -->
-              <view class="goods-price">￥{{goods.goods_price}}</view>
-              <uni-number-box @change="changeValue" v-if="showRadio" v-model="goods.goods_count" />
-            </view>
-          </view>
-        </navigator>
-      </block>
+  <view class="goods-item">
+    <!-- 商品左侧图片区域 -->
+    <view class="goods-item-left">
+      <radio :checked="goods.goods_state" color="#C00000" v-if="showRadio" @click.stop="radioClickHandler()">
+      </radio>
+      <image :src="goods.goods_small_logo || defaultPic" class="goods-pic"></image>
+    </view>
+    <!-- 商品右侧信息区域 -->
+    <view class="goods-item-right">
+      <!-- 商品标题 -->
+      <view class="goods-name">{{goods.goods_name}}</view>
+      <view class="goods-info-box">
+        <!-- 商品价格 -->
+        <view class="goods-price">￥{{goods.goods_price}}</view>
+        <uni-number-box :min="1" @change="changeValue" v-if="showRadio" v-model="goods.goods_count" />
+      </view>
     </view>
   </view>
 </template>
 
 <script>
-  import {
-    mapMutations
-  } from "vuex"
   export default {
     data() {
       return {
         // 商品列表的数据
-        goodsList: [],
+        // goodsList: [],
         // 默认的空图片
         defaultPic: 'https://img3.doubanio.com/f/movie/8dd0c794499fe925ae2ae89ee30cd225750457b4/pics/movie/celebrity-default-medium.png',
       };
     },
     props: {
-      goodsList: {
+      goods: {
         type: Object,
         default: {}
       },
@@ -50,16 +41,22 @@
     },
     methods: {
       // radio 组件的点击事件处理函数
-      radioClickHandler(goods) {
+      radioClickHandler() {
         // 通过 this.$emit() 触发外界通过 @ 绑定的 radio-change 事件，
         // 同时把商品的 Id 和 勾选状态 作为参数传递给 radio-change 事件处理函数
         this.$emit('radio-change', {
           // 商品的 Id
-          goods_id: goods.goods_id,
+          goods_id: this.goods.goods_id,
           // 商品最新的勾选状态
-          goods_state: !goods.goods_state
+          goods_state: !this.goods.goods_state
         })
       },
+      changeValue(v) {
+        this.$emit('changeGoodsCount', {
+          goods_id: this.goods.goods_id,
+          goods_count: v,
+        })
+      }
     }
   }
 </script>
@@ -101,7 +98,6 @@
           color: #c00000;
         }
       }
-
     }
   }
 </style>

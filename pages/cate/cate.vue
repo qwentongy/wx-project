@@ -10,7 +10,8 @@
         </view>
       </scroll-view>
       <!-- 右侧滑动区域 -->
-      <scroll-view :scroll-y="true" class="right-scroll-view" :style="{height: wh + 'px'}" :scroll-top="scrollTop">
+      <scroll-view :scroll-y="true" class="right-scroll-view" :style="{height: wh + 'px'}" :scroll-top="scrollTop"
+        v-if="categoryList[active].cat_name">
         <view class="right-scroll-view-item">
           <view class="right-scroll-view-item-header">
             {{categoryList[active].cat_name}}
